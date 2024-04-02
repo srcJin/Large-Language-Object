@@ -1,50 +1,41 @@
-# Large Language Objects  
+# Large Language Object - 2024 Edition
 
-Example project that connects Arduino, p5js and GPT under an Electron shell.
+This is a simple template that combines OpenAI's Node.js SDK, a P5.js sketch, a serial connection to an Arduino, and Vite for code autorefresh.
 
-## How to Run this App
+### What it does:
 
-
-### 1. Arduino
-
-Start by programming your Arduino with the code in the folder A_Electron.
-
-Check what port your Arduino is connected to under Tools > Port. You can also do this in Terminal by using the command: ls /dev/tty.*
-
-Enter the port name in sketch.js in this line:
-sp = new SerialPort({ path: '/dev/tty.usbmodem14201', baudRate: 115200 });
+- Enter a prompt in the text input field and it returns a response from GPT and displays it inside of the P5.js canvas
+- Press 'c' to prompt GPT by asking for the color of the sky. It returns a hex color value that is used to fill a square.
+- Press 's' to connect to serial port
+    - Once connected, press 'h' to turn LED on, and 'l' to turn LED off 
 
 
+## Requirements
 
-### 2. OpenAI API Key
+This template requires a recent version of Node.js, recommended version 16 or later.
 
-Create an account with OpenAI, and generate an API key here:
-https://platform.openai.com/account/api-keys
+Clone the repository with git or download the code from the repository as a zip file.
 
-Enter your API key in key.js: OPENAI_API_KEY='Your API Key Here' 
+Then install the libraries:
 
-(Remember to keep it secret and not share it on Github)
+    cd LLO
+    npm install
 
+## Start the dev environment
 
+This template uses [Vite](https://vitejs.dev/) as a local development server. Start it with the following:
 
+    npm run dev
 
-### 3. Run the Electon App
+By default, this starts a local server at http://localhost:5173/. Just copy/paste this URL into
+a browser window to view the app. This will automatically update when you save changes to your code (that is, no manual refresh required!).
 
-To run the Electron app, install node.js https://nodejs.org/en
+## OpenAI API Key
 
-Using the terminal, navigate to the project folder and run:
+Remember to provide your OpenAI API key into `sketch.js`. Note that this is configured
+for local development only, and this code should not be used on a production server.
 
-npm install
+## Credit and More Information
 
-npm start
-
-sketch.js contains all the logic required to run your app.
-
-When the app first runs, the canvas background is grey and makes a request to GPT using the following prompt: 
-let prompt = "the hex code for color 'bright pink' is";
-
-Once it receives the first response it updates the background color to a pink color received from GPT.
-
-By pressing the letter 'A', you can do another request with the prompt 'fire red' and color the background with the response color. By pressing the letter 'B', you can color it with 'morning sky'.
-
-To communicate with Arduino, you can press 'H' or 'L'. Electron will send a character to Arduino which will toggle the onboard LED on or off. You will also get a response from Arduino that will get showed on the app canvas. 
+https://medium.spatialpixel.com/programming-natural-language-71075fb3d428
+https://github.com/gohai/p5.webserial
