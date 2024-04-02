@@ -1,4 +1,4 @@
-# Large Language Objects  
+# Large Language Objects - 2023 Edition
 
 Example project that connects Arduino, p5js and GPT under an Electron shell.
 
