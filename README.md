@@ -9,6 +9,9 @@ This is a simple template that combines OpenAI's Node.js SDK, a P5.js sketch, a 
 - Press 's' to connect to serial port
     - Once connected, press 'h' to turn LED on, and 'l' to turn LED off 
 
+## Arduino
+
+Upload A_LLO to an Arduino and use pin 10 for LED feedback.
 
 ## Requirements
 
