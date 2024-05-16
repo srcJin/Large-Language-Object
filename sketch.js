@@ -6,7 +6,7 @@ import OpenAI from 'openai';
 
 // Declare globals.
 // Put your OpenAI API key here.
-const apiKey = 'enter_your_api_key_here';
+const apiKey = 'sk-proj-iS4Q6qoKq2G4qtinsp0oT3BlbkFJVujebVi8SNn5UGXdQwPN';
 let openai;
 
 // Keep all non-P5.js code outside of the sketch() function as much as possible.
@@ -62,11 +62,11 @@ async function chat (prompt) {
 let generatedColor = '#FFFF00';
 
 // Sends a single prompt to the OpenAI completions API.
-async function sendToOpenAI(promptNew) {
-  //try {
+async function sendToOpenAI(promptNew, callback) {
+  try {
     console.log("Prompt: " + promptNew);
     const completion = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4-turbo",
       messages: [
         {
           "role": "user",
@@ -75,18 +75,18 @@ async function sendToOpenAI(promptNew) {
       ]
     });
 
-
-    let result = await completion.choices[0].message.content;
+    let result = completion.choices[0].message.content;
     console.log("Result: " + result);
     generatedColor = result;
-  
-    //return completion.choices[0].message.content;
-  //} catch (err) {
-   // console.error("An error occurred in the chat function:", err);
-   // return "An error occurred."
-  //}
 
+    // Call the callback with the result
+    callback(result);
+  } catch (err) {
+    console.error("An error occurred in the chat function:", err);
+    callback("An error occurred.");
+  }
 }
+
 
 
 
@@ -156,6 +156,16 @@ const sketch = p => {
     // Ask GPT for a color
     if (p.key === 'c') {
       sendToOpenAI("What is the color of the sky? Respond with RGB HEX code only. No explanations.");
+      port.write("H");
+
+    }
+
+    // Ask GPT
+    if (p.key === 'j') {
+      sendToOpenAI("5 word joke, don't, must end with .", function(result) {
+        console.log("writing result = ", result);
+        port.write(result);
+      });
     }
 
     // connect to serial port
@@ -167,15 +177,18 @@ const sketch = p => {
     // send serial data to Arduino to toggle LED
     // LED high
     if (p.key === 'h') {
+      console.log("writing port H");
       port.write("H");
     }
     // LED low
     if (p.key === 'l') {
+      console.log("writing port L");
       port.write("L");
     }
 
   } // end keyPressed
 } // end sketch function
+
 
 
 // =====================================================================================
